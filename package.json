@@ -1,0 +1,22 @@
+{
+  "name": "oauthdemogb",
+  "version": "1.0.0",
+  "description": "Demo App for Oauth ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/achuthilak/OAuthDemoGB.git"
+  },
+  "author": "achu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/achuthilak/OAuthDemoGB/issues"
+  },
+  "homepage": "https://github.com/achuthilak/OAuthDemoGB#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
