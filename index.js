@@ -7,8 +7,11 @@ const swaggerUI = require('swagger-ui-express');
 const swaggerOptions = {
     swaggerDefinition:{
         info:{
-            tilte:"OAuth Test",
+            title:"OAuth Test",
             description:"OAuth Test",
+            contact: {
+                name: "test"
+              },
             servers:["http://localhost:5000"]
         }       
     },
@@ -62,18 +65,8 @@ app.get('/app', (req, res) => {
  *                  type: string
  *          format: string
  *    responses:
- *      200:
- *          description: Authentication successfull
- *          content:
- *              application/json:
- *                  schema:
- *                      type: object
- *                      properties:
- *                          token:
- *                              type: string
- *                              description: Token for further authentication of services
- *              
- *          
+ *      '200':
+ *        description: welcome message
  */
 
 
@@ -111,6 +104,29 @@ app.post('/app/login', jsonParser,(req, res) => {
     }
 });
 
+
+/**
+ * @swagger
+ * /app/requestInfo:
+ *    post:
+ *      description: provides sample output after authentication
+ *    parameters:
+ *      - name: token
+ *        in: header
+ *        description: token associated to user
+ *        required: true
+ *        schema:
+ *          type: object
+ *          required:
+ *              - token
+ *          properties:
+ *              token:
+ *                  type: string
+ *          format: string
+ *    responses:
+ *      '200':
+ *        description: welcome message
+ */
 app.post('/app/requestInfo', checkTokenExist, (req, res) => {
     jwt.verify(req.token, secretKey, (err, data) => {
         if (err) {
