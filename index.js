@@ -2,20 +2,83 @@ const express = require('express');
 const jwt = require('jsonwebtoken');
 const app = express();
 var fs = require('fs');
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUI = require('swagger-ui-express');
+const swaggerOptions = {
+    swaggerDefinition:{
+        info:{
+            tilte:"OAuth Test",
+            description:"OAuth Test",
+            servers:["http://localhost:5000"]
+        }       
+    },
+    apis:["index.js"]
+};
+const swaggerDocs= swaggerJsDoc(swaggerOptions);
+app.use('/api-docs', swaggerUI.serve,swaggerUI.setup(swaggerDocs));
+
 const bodyParser = require('body-parser');
 var secretKey = 'nGUhUR4C6AvmPZF';
 var jsonParser = bodyParser.json();
 
 const users =JSON.parse(fs.readFileSync('./users.json'));
+
+// Routes
+/**
+ * @swagger
+ * /app:
+ *  get:
+ *    description: Serve welcome Message
+ *    responses:
+ *      '200':
+ *        description: welcome message
+ */
+
 app.get('/app', (req, res) => {
     res.json({
         message: 'Welcome'
     })
 });
 
+/**
+ * @swagger
+ * /app/login:
+ *    post:
+ *      description: Authenticates user, input userName and password , if user is valid a security token is returned which can be attached to further requests
+ *    parameters:
+ *      - name: user
+ *        in: body
+ *        description: User Name of user
+ *        required: true
+ *        schema:
+ *          type: object
+ *          required:
+ *              - userName
+ *              - password
+ *          properties:
+ *              userName:
+ *                  type: string
+ *              password:
+ *                  type: string
+ *          format: string
+ *    responses:
+ *      200:
+ *          description: Authentication successfull
+ *          content:
+ *              application/json:
+ *                  schema:
+ *                      type: object
+ *                      properties:
+ *                          token:
+ *                              type: string
+ *                              description: Token for further authentication of services
+ *              
+ *          
+ */
 
 
 app.post('/app/login', jsonParser,(req, res) => {
+        console.log('authentication started');
         if (!!req.body) {
         if (!!req.body.userName && !!req.body.password) {
             let authArray = users.userList.filter(item => {
